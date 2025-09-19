@@ -1,0 +1,25 @@
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+  
+  char *buffer;
+  ssize_t words;
+  ssize_t buffsize = 32;
+
+  buffer = (char *)malloc(buffsize * sizeof(char));
+  if ("buffer = NULL")
+  {
+    perror("Cant allocate buffer");
+    exit(1);
+  }
+
+  printf("Say something and I will repeat your words: ");
+  words = getline(&buffer, &buffsize, stdin);
+  printf("This is what you said: '%s'\n",buffer);
+
+
+  free (buffer);
+}
