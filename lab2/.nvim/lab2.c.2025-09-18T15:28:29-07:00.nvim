@@ -1,0 +1,12 @@
+// Han Pham Lab 2 - CMPT 201
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+
+  pid_t pid = fork();
+
+  return 0;
+}

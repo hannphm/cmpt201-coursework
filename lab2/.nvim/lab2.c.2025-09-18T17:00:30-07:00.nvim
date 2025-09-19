@@ -1,0 +1,49 @@
+// Han Pham Lab 2 - CMPT 201
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+
+  char *command = NULL;
+  size_t len = 0;
+  ssize_t nread;
+
+  while (1) {
+    printf("Enter programs to run.\n>");
+    fflush(stdout);
+
+    nread = getline(&command, &len, stdin);
+    if (nread == -1) {
+      break;
+    }
+
+    if (command[nread - 1] == '\n') {
+      (command[nread - 1] = '\0');
+    }
+
+    pid_t pid = fork();
+    if (pid < 0) {
+      perror("fork failed");
+      continue;
+    }
+
+    if (pid == 0) {
+      execl(command, command, (char *)NULL);
+      perror("Exec failure");
+      exit(1);
+    } else {
+      int wstatus = 0;
+      if (waitpid(pid, &wstatus, 0) == -1) {
+        perror("waitpid");
+        continue;
+      }
+      printf("\n");
+    }
+  }
+  free(command);
+  return 0;
+}
